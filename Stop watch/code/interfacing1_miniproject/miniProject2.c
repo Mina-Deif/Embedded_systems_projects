@@ -58,17 +58,17 @@ ISR(INT0_vect)
 	seconds_tenth	= 0;
 	minutes_units	= 0;
 	minutes_tenth	= 0;
-	hours_units		= 0;
-	hours_tenth		= 0;
+	hours_units	= 0;
+	hours_tenth	= 0;
 }
 //==========================================================================================
 
 /* External INT0 enable and configuration function */
 void INT0_Init(void)
 {
-	DDRD  &= (~(1<<PD2));               // Configure INT0/PD2 as input pin
+	DDRD  &= (~(1<<PD2));               		// Configure INT0/PD2 as input pin
 	PORTD |= (1<<PD2);     				// Enable the internal pull up resistor at PD2 pin
-	GICR  |= (1<<INT0);                 // Enable external interrupt pin INT0
+	GICR  |= (1<<INT0);              		// Enable external interrupt pin INT0
 	// Trigger INT0 with the falling edge
 	MCUCR |= (1<<ISC01);
 	MCUCR &= ~(1<<ISC00);
@@ -79,7 +79,7 @@ void INT0_Init(void)
 ISR(INT1_vect)
 {
 	// Pause time counting
-	//TIMSK &= ~(1<<OCIE1A); 				// Disable Timer1 Compare A Interrupt
+	//TIMSK &= ~(1<<OCIE1A); 			// Disable Timer1 Compare A Interrupt
 	TCCR1B &= ~(1<<CS10 | (1<<CS12));		// Disable Timer1 by setting clock to zero
 }
 //==========================================================================================
@@ -88,8 +88,8 @@ ISR(INT1_vect)
 void INT1_Init(void)
 {
 	DDRD  &= (~(1<<PD3));				// Configure INT1/PD3 as input pin
-	GICR  |= (1<<INT1);					// Enable external interrupt pin INT1
-	MCUCR |= (1<<ISC11) | (1<<ISC10);	// Trigger INT1 with the rising edge
+	GICR  |= (1<<INT1);				// Enable external interrupt pin INT1
+	MCUCR |= (1<<ISC11) | (1<<ISC10);		// Trigger INT1 with the rising edge
 }
 //==========================================================================================
 
@@ -98,25 +98,25 @@ ISR(INT2_vect)
 {
 	// Resume time counting
 	//TIMSK |= (1<<OCIE1A); 			// Enable Timer1 Compare A Interrupt
-	TCCR1B |= (1<<CS10) | (1<<CS12);	// Enable Timer1 by setting back the prescaler to 1024
+	TCCR1B |= (1<<CS10) | (1<<CS12);		// Enable Timer1 by setting back the prescaler to 1024
 }
 //==========================================================================================
 
 /* External INT2 enable and configuration function */
 void INT2_Init(void)
 {
-	DDRB   &= (~(1<<PB2));		// Configure INT2/PB2 as input pin
-	PORTB  |= (1<<PB2);			// Enable the internal pull up resistor at PB2 pin
-	GICR   |= (1<<INT2);		// Enable external interrupt pin INT2
-	MCUCSR &= ~(1<<ISC2);		// Trigger INT2 with the falling edge
+	DDRB   &= (~(1<<PB2));				// Configure INT2/PB2 as input pin
+	PORTB  |= (1<<PB2);				// Enable the internal pull up resistor at PB2 pin
+	GICR   |= (1<<INT2);				// Enable external interrupt pin INT2
+	MCUCSR &= ~(1<<ISC2);				// Trigger INT2 with the falling edge
 }
 //==========================================================================================
 
 void Timer1_Init_CTC_Mode(void)
 {
-	TCNT1 = 0;    			// Set Timer initial value to 0
-	OCR1A  = 976; 			// Set Compare Value to 976 to trigger interrupt every 1 sec as each compare match at 1.024 msec
-	TIMSK |= (1<<OCIE1A); 	// Enable Timer1 Compare A Interrupt
+	TCNT1 = 0;    					// Set Timer initial value to 0
+	OCR1A  = 976; 					// Set Compare Value to 976 to trigger interrupt every 1 sec as each compare match at 1.024 msec
+	TIMSK |= (1<<OCIE1A);	 			// Enable Timer1 Compare A Interrupt
 
 	/* Configure timer control register TCCR1A
 	     * 1. Disconnect OC1A  COM1A1=0 COM1A0=0
@@ -167,7 +167,7 @@ int main(void)
 	INT0_Init();				// Initialize interrupt 0
 	INT1_Init();				// Initialize interrupt 1
 	INT2_Init();				// Initialize interrupt 2
-	Timer1_Init_CTC_Mode();		// Initialize timer1
+	Timer1_Init_CTC_Mode();			// Initialize timer1
 	DDRA	|= 	0x003F;			// set first 6 pins of port A as output
 	PORTA 	&= 	0xC0;			// write zero on first 6 pins of port A
 	DDRC 	|=	0x000F;			// set first 4 pins of port C as output
