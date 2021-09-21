@@ -60,7 +60,7 @@ ISR(INT0_vect)
 	minutes_tenth	= 0;
 	hours_units	= 0;
 	hours_tenth	= 0;
-	TCNT1		 = 0;    			// Set Timer initial value to 0
+	TCNT1		= 0;    			// Set Timer initial value to 0
 }
 //==========================================================================================
 
